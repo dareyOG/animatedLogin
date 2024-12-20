@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>animated input</title>
+  </head>
+  <body>
+    <style>
+      html {
+        box-sizing: border-box;
+        font-size: 62.5%;
+      }
+
+      body {
+        font-family: Helvetica;
+        font-size: 2rem;
+      }
+
+      form {
+        margin: 80px auto;
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        max-width: 300px;
+        width: 100%;
+      }
+
+      .input-group {
+        position: relative;
+        --x: 15px;
+        --y: 11px;
+        --color: color-mix(in srgb, red 45%, yellow 55%);
+        --time: 400ms;
+      }
+
+      input {
+        border: 1px dotted initial;
+        border-radius: 0.5rem;
+        /* color: var(--color); */
+        width: 200px;
+        padding: var(--x) var(--y);
+        letter-spacing: 2px;
+        outline: 0;
+      }
+
+      label {
+        position: absolute;
+        letter-spacing: 2px;
+        left: var(--x);
+        top: var(--y);
+        padding: 0 var(--y);
+        transition: all var(--time);
+      }
+
+      input:focus {
+        border: 2.5px solid;
+        color: var(--color);
+      }
+
+      input:focus ~ label,
+      input:not(:placeholder-shown) ~ label {
+        top: calc(var(--y)-2px);
+        color: var(--color);
+        font-size: 1.1rem;
+        padding: 5px 0;
+        opacity: 0.25;
+      }
+
+      .btn {
+        position: absolute;
+        bottom: calc(var(--y) * 1.5);
+        right: calc(var(--x) * 6);
+        border: 2px solid transparent;
+        width: fit-content;
+        padding: 1px;
+        font-size: 10px;
+        cursor: pointer;
+      }
+
+      .btn:hover,
+      .btn:active {
+        color: var(--color);
+      }
+    </style>
+    <form>
+      <div class="input-group">
+        <input type="text" placeholder="" id="username" />
+        <label for="username">Username</label>
+      </div>
+      <div class="input-group">
+        <input type="password" placeholder="" id="password" />
+        <label for="password">Password</label>
+        <div class="btn">show</div>
+      </div>
+    </form>
+    <script>
+      const showBtn = document.body.querySelector('.input-group .btn');
+
+      const password = document.body.querySelector('.input-group #password');
+
+      const showPassword = function () {
+        const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+        password.setAttribute('type', type);
+
+        const toggleView = showBtn.innerText === 'show' ? 'hide' : 'show';
+        showBtn.innerText = toggleView;
+      };
+
+      showBtn.addEventListener('click', showPassword);
+    </script>
+  </body>
+</html>
